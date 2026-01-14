@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641957770724",
+    "project_id": "diet-29fde",
+    "storage_bucket": "diet-29fde.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641957770724:android:eafbba6cdfa018732ec3f1",
+        "android_client_info": {
+          "package_name": "com.example.diet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5bCK-X1EREw7PKliCoEKpu0xPZgNywQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
