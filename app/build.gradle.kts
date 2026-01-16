@@ -75,5 +75,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore) // firestore
     implementation(libs.androidx.lifecycle.runtime.compose) // lifecycle compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2") // viewmodel compose
+
 
 }
