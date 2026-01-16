@@ -9,7 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.diet.BuildConfig
-import com.example.diet.MainActivity
+import com.example.diet.ui.main.MainActivity
 import com.example.diet.ui.theme.DietTheme
 
 
