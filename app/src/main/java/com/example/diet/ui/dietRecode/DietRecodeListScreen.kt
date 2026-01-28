@@ -1,7 +1,5 @@
 package com.example.diet.ui.dietRecode
 
-import android.R.attr.fontWeight
-import android.R.attr.text
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -25,6 +23,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,23 +33,26 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.diet.model.Exercise
 import com.example.diet.ui.components.AnimatedText
+import com.example.diet.ui.main.diet.DietViewModel
 
 @Composable
-fun DietRecodeListScreen(onAddClicked: () -> Unit) {
+fun DietRecodeListScreen(
+    viewModel: DietViewModel, onAddClicked: () -> Unit
+) {
+    val exerciseList by viewModel.exercises.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.readExercises()
+    }
     val targetCalories = 1500
-    val consumeCalories = 300
-    val exerciseList = listOf(
-        Exercise("러닝", 30, 200),
-        Exercise("사이클", 45, 300)
-    )
+    val consumedCalories = exerciseList.sumOf { it.calorie }
     Box(
         Modifier
             .fillMaxSize()
@@ -70,15 +73,15 @@ fun DietRecodeListScreen(onAddClicked: () -> Unit) {
             )
             Spacer(Modifier.height(20.dp))
             Text(
-                "$consumeCalories / $targetCalories kcal",
+                "$consumedCalories / $targetCalories kcal",
                 color = Color.White,
                 fontSize = 20.sp,
             )
             Spacer(Modifier.height(20.dp))
             Box(contentAlignment = Alignment.Center) {
                 AnimatedCircularProgressBar(
-                    consumeValues = 300,
-                    targetValues = 1500,
+                    consumeValues = consumedCalories,
+                    targetValues = targetCalories,
                     strokeWidth = 20.dp,
                     modifier = Modifier.size(200.dp)
                 )
@@ -139,7 +142,7 @@ fun ExerciseRow(item: Exercise) {
     ) {
         Column() {
             Text(
-                "${item.name}",
+                item.name,
                 color = Color(0xff00bfae),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -165,7 +168,7 @@ fun AnimatedCircularProgressBar(
     modifier: Modifier
 ) {
     val percentage = remember { Animatable(0f) }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(consumeValues) {
         percentage.animateTo(
             targetValue = consumeValues / targetValues.toFloat(),
             animationSpec = tween(
@@ -220,10 +223,10 @@ fun CircularProgressBar(
     }
 }
 
-@Preview
-@Composable
-private fun PreviewDietRecodeListScreen() {
-    DietRecodeListScreen(
-        onAddClicked = {  }
-    )
-}
+//@Preview
+//@Composable
+//private fun PreviewDietRecodeListScreen() {
+//    DietRecodeListScreen(
+//        onAddClicked = { }
+//    )
+//}

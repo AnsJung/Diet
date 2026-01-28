@@ -13,31 +13,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.diet.ui.dietRecode.DietRecodeInputScreen
 import com.example.diet.ui.dietRecode.DietRecodeListScreen
 
-
-enum class DietRecodeScreen{
+enum class DietRecodeScreen {
     DietRecordInfo,
     DietRecordAdd
-
 }
-@Composable
-fun DietScreen(){
-   var currentScreen by rememberSaveable { mutableStateOf(DietRecodeScreen.DietRecordInfo) }
 
-    when(currentScreen){
-        DietRecodeScreen.DietRecordInfo->{
+@Composable
+fun DietScreen(dietViewModel: DietViewModel = viewModel()) {
+    var currentScreen by rememberSaveable { mutableStateOf(DietRecodeScreen.DietRecordInfo) }
+
+    when (currentScreen) {
+        DietRecodeScreen.DietRecordInfo -> {
             DietRecodeListScreen(
+                dietViewModel,
                 onAddClicked = {
                     currentScreen = DietRecodeScreen.DietRecordAdd
                 }
             )
         }
+
         else -> {
-            DietRecodeInputScreen{
-                currentScreen = DietRecodeScreen.DietRecordInfo
-            }
+            DietRecodeInputScreen(
+                viewModel = dietViewModel,
+                onSaveClicked = {
+                    currentScreen = DietRecodeScreen.DietRecordInfo
+                }, onCancelClicked = {
+                    currentScreen = DietRecodeScreen.DietRecordInfo
+                }
+            )
         }
     }
 }
